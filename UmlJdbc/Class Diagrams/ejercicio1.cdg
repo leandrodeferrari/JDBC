@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="ejercicio1">
+  <ClassDiagramComponents>
+    <Class name="Producto" package="" visibility="public" xPosition="44.0" yPosition="19.0">
+      <Fields>
+        <Field name="codigo" type="int" visibility="private"/>
+        <Field name="nombre" type="String" visibility="private"/>
+        <Field name="precio" type="double" visibility="private"/>
+        <Field name="codigoFabricante" type="int" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="Fabricante" package="" visibility="public" xPosition="44.0" yPosition="217.0">
+      <Fields>
+        <Field name="codigo" type="int" visibility="private"/>
+        <Field name="nombre" type="String" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="Dao" package="" visibility="public" xPosition="288.0" yPosition="19.0">
+      <Fields>
+        <Field name="conexion" type="Connection" visibility="protected"/>
+        <Field name="sentencia" type="Statement" visibility="protected"/>
+        <Field name="resultado" type="ResultSet" visibility="protected"/>
+        <Field name="USER" type="String" visibility="private" isFinal="true"/>
+        <Field name="PASSWORD" type="String" visibility="private" isFinal="true"/>
+        <Field name="DATABASE" type="String" visibility="private" isFinal="true"/>
+        <Field name="DRIVER" type="String" visibility="private" isFinal="true"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="conectarBaseDeDatos" returnType="void" visibility="protected"/>
+        <Method name="desconectarBaseDeDatos" returnType="void" visibility="protected"/>
+        <Method name="insertarModificarEliminar" returnType="void" visibility="protected">
+          <Argument type="String" name="sql"/>
+        </Method>
+        <Method name="consultarBaseDeDatos" returnType="void" visibility="public">
+          <Argument type="String" name="sql"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Menu" package="" visibility="public" xPosition="44.0" yPosition="379.0">
+      <Fields/>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="FabricanteDaoExt" package="" visibility="public" xPosition="288.0" yPosition="379.0">
+      <Fields/>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="ProductoDaoExt" package="" visibility="public" xPosition="600.0" yPosition="217.0">
+      <Fields/>
+      <Constructors/>
+      <Methods/>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <IsRelation name="is" source="FabricanteDaoExt" target="Dao"/>
+    <IsRelation name="is" source="ProductoDaoExt" target="Dao"/>
+  </ClassDiagramRelations>
+</ClassDiagram>
