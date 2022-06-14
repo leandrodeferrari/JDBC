@@ -10,7 +10,9 @@
         <Field name="codigoFabricante" type="int" visibility="private"/>
       </Fields>
       <Constructors/>
-      <Methods/>
+      <Methods>
+        <Method name="crearProducto" returnType="Producto" visibility="public"/>
+      </Methods>
     </Class>
     <Class name="Fabricante" package="" visibility="public" xPosition="44.0" yPosition="217.0">
       <Fields>
@@ -18,7 +20,9 @@
         <Field name="nombre" type="String" visibility="private"/>
       </Fields>
       <Constructors/>
-      <Methods/>
+      <Methods>
+        <Method name="crearFabricante" returnType="Fabricante" visibility="public"/>
+      </Methods>
     </Class>
     <Class name="Dao" package="" visibility="public" xPosition="288.0" yPosition="19.0">
       <Fields>
@@ -50,7 +54,11 @@
     <Class name="FabricanteDaoExt" package="" visibility="public" xPosition="288.0" yPosition="379.0">
       <Fields/>
       <Constructors/>
-      <Methods/>
+      <Methods>
+        <Method name="guardarFabricante" returnType="void" visibility="public">
+          <Argument type="Fabricante" name="fabricante"/>
+        </Method>
+      </Methods>
     </Class>
     <Class name="ProductoDaoExt" package="" visibility="public" xPosition="600.0" yPosition="217.0">
       <Fields/>
