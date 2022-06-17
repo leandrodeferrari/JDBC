@@ -11,6 +11,12 @@ public final class Producto {
     public Producto() {
     }
 
+    public Producto(String nombre, double precio, int codigoFabricante) {
+        this.nombre = nombre;
+        this.precio = precio;
+        this.codigoFabricante = codigoFabricante;
+    }
+    
     public Producto(int codigo, String nombre, double precio, int codigoFabricante) {
         this.codigo = codigo;
         this.nombre = nombre;

@@ -4,23 +4,23 @@ import java.sql.*;
 
 public abstract class Dao {
 
-    protected Connection conexion = null;
-    protected Statement sentencia = null;
-    protected ResultSet resultado = null;
+    protected Connection conexion;
+    protected Statement sentencia;
+    protected ResultSet resultado;
 
     private final String USER = "root";
     private final String PASSWORD = "root";
     private final String DATABASE = "tienda";
     private final String DRIVER = "com.mysql.jdbc.Driver";
 
-    protected void conectarBaseDeDatos() throws ClassNotFoundException, SQLException {
+    protected void conectarBaseDeDatos() throws ClassNotFoundException, SQLException{
 
         try {
             Class.forName(DRIVER);
-            String urlBaseDeDatos = "jdbc:mysql://localhost:3306/" + DATABASE + "?zeroDateTimeBehavior=convertToNull [root on Default schema]";
+            String urlBaseDeDatos = "jdbc:mysql://localhost:3306/" + DATABASE + "?useSSL=false&useTimezone&serverTimezone=UTC&allowPublicKeyRetrieval=true";
             conexion = DriverManager.getConnection(urlBaseDeDatos, USER, PASSWORD);
         } catch (ClassNotFoundException | SQLException ex) {
-            throw ex;
+            ex.printStackTrace(System.out);
         }
 
     }
@@ -38,7 +38,7 @@ public abstract class Dao {
                 conexion.close();
             }
         } catch (SQLException ex) {
-            throw ex;
+            ex.printStackTrace(System.out);
         }
         
     }    
@@ -53,7 +53,7 @@ public abstract class Dao {
             // conexion.rollback(); AVERIGUAR COMO USAR ESTO
             // SET autocommit = 1;
             // COMMIT;
-            throw ex;
+            ex.printStackTrace(System.out);
         } finally {
             desconectarBaseDeDatos();
         }
@@ -67,8 +67,7 @@ public abstract class Dao {
             sentencia = conexion.createStatement();
             resultado = sentencia.executeQuery(sql);
         } catch (ClassNotFoundException | SQLException ex) {
-        } finally {
-            desconectarBaseDeDatos();
+            ex.printStackTrace(System.out);
         }
         
     }

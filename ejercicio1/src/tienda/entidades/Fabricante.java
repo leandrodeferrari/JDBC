@@ -9,6 +9,10 @@ public class Fabricante {
     public Fabricante() {
     }
 
+    public Fabricante(String nombre) {
+        this.nombre = nombre;
+    }
+    
     public Fabricante(int codigo, String nombre) {
         this.codigo = codigo;
         this.nombre = nombre;
@@ -18,10 +22,10 @@ public class Fabricante {
         return codigo;
     }
 
-    public void setCodigo(int codigo) {
+    public void setCodigo(int codigo){
         this.codigo = codigo;
     }
-
+    
     public String getNombre() {
         return nombre;
     }

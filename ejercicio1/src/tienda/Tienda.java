@@ -1,11 +1,13 @@
-
 package tienda;
+
+import java.sql.SQLException;
+import tienda.servicios.ServicioMenu;
 
 public class Tienda {
 
-    public static void main(String[] args) {
-        
-    /* 1. Tienda
+    public static void main(String[] args) throws NullPointerException, ClassNotFoundException, SQLException {
+
+    /* 1. Tienda  
     Nos han pedido que hagamos una aplicación Java para una tienda con sus
     productos. El objetivo es realizar consultas para saber el stock de ciertos productos
     o que productos hay, etc. Utilizando el lenguaje JAVA, una base de datos MySQL y
@@ -63,8 +65,11 @@ public class Tienda {
     f) Ingresar un producto a la base de datos.
     g) Ingresar un fabricante a la base de datos.
     h) Editar un producto con datos a elección.   
-    */    
-    
+    */
+        
+        ServicioMenu servicioMenu = new ServicioMenu();
+        servicioMenu.ejecutarMenu();
+        
     }
-    
+
 }

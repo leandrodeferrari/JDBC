@@ -4,7 +4,12 @@ import java.sql.*;
 import tienda.entidades.Fabricante;
 
 public final class FabricanteDaoExt extends Dao {
+    
+    private PreparedStatement sentenciaPreparada;
 
+    private final String SQL_INSERT = "INSERT INTO tienda.fabricante (codigo, nombre) VALUES (codigo = ?, nombre = ?)";
+    private final String SQL_SELECT = "SELECT * FROM tienda.fabricante WHERE codigo = ?";
+    
     public void guardarFabricante(Fabricante fabricante) throws NullPointerException, ClassNotFoundException, SQLException {
 
         try {
@@ -12,35 +17,39 @@ public final class FabricanteDaoExt extends Dao {
                 throw new NullPointerException("No ha indicado el fabricante");
             } else {
                 conectarBaseDeDatos();
-                String sql = "INSERT INTO " + "tienda.fabricante" + " (codigo, nombre) VALUES ('" + fabricante.getCodigo() + "', '" + fabricante.getNombre() + "')";
-                insertarModificarEliminar(sql);
+                sentenciaPreparada = conexion.prepareStatement(SQL_INSERT);
+                sentenciaPreparada.setInt(1, fabricante.getCodigo());
+                sentenciaPreparada.setString(2, fabricante.getNombre());
+                insertarModificarEliminar(SQL_INSERT);
             }
         } catch (ClassNotFoundException | SQLException ex) {
-            throw ex;
+            ex.printStackTrace(System.out);
         } finally {
             desconectarBaseDeDatos();
         }
-        // ver lo del codigo de fabricante.
     }
 
     public Fabricante buscarFabricantePorCodigo(int codigoFabricante) throws ClassNotFoundException, SQLException {
 
+        Fabricante fabricante = new Fabricante();
+        
         try {
-            String sql = "SELECT * FROM tienda.fabricante WHERE codigo = " + codigoFabricante;
-            consultarBaseDeDatos(sql);
-            Fabricante fabricante = null;
-            while(resultado.next()){
-                fabricante = new Fabricante();
+            conectarBaseDeDatos();
+            sentenciaPreparada = conexion.prepareStatement(SQL_SELECT);
+            sentenciaPreparada.setInt(1, codigoFabricante);
+            consultarBaseDeDatos(SQL_SELECT);
+            while (resultado.next()) {
                 fabricante.setCodigo(resultado.getInt("codigo"));
                 fabricante.setNombre(resultado.getString("nombre"));
             }
-            return fabricante;
         } catch (ClassNotFoundException | SQLException ex) {
-            throw ex;
+            ex.printStackTrace(System.out);
         } finally {
             desconectarBaseDeDatos();
-            // No estoy seguro si es necesario desconectar la base de datos
         }
+        
+        return fabricante;
+        
     }
 
 }
