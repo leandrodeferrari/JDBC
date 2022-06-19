@@ -15,14 +15,11 @@ public class ServicioProducto {
         this.productoDao = new ProductoDaoExt();
     }
 
-    public Producto crearProducto() throws ClassNotFoundException, SQLException {
+    public Producto crearProducto() throws RuntimeException, ClassNotFoundException, SQLException {
 
-        int codigo, codigoFabricante;
+        int codigoFabricante;
         String nombre;
         double precio;
-
-        System.out.println("Ingrese el código del producto");
-        codigo = leer.nextInt();
 
         System.out.println("Ingrese el nombre del producto");
         nombre = leer.next();
@@ -33,15 +30,10 @@ public class ServicioProducto {
         System.out.println("Ingrese el código del fabricante, del producto");
         codigoFabricante = leer.nextInt();
 
-        Producto producto = new Producto();
+        Producto producto = new Producto(nombre, precio, codigoFabricante);
 
-        if (productoDao.buscarProductoPorCodigo(codigo).getCodigo() != codigo) {
-            producto.setCodigo(codigo);
-            producto.setNombre(nombre);
-            producto.setPrecio(precio);
-            producto.setCodigoFabricante(codigoFabricante);
-        } else {
-            System.out.println("Lo siento, ya existe un producto con ese código");
+        if (nombre == null || nombre.trim().isEmpty()){
+            throw new RuntimeException("No ha ingresado un nombre");
         }
 
         return producto;
@@ -59,52 +51,48 @@ public class ServicioProducto {
 
     }
 
-    public void modificarTodosLosDatosDeUnProducto() throws ClassNotFoundException, SQLException{
-        
+    public void modificarTodosLosDatosDeUnProducto() throws ClassNotFoundException, SQLException {
+
         int codigoParaBuscar, codigoFabricante;
         String nombre;
         double precio;
-        
+
         System.out.println("Ingrese el código del producto que desea modificar");
         codigoParaBuscar = leer.nextInt();
-        
+
         System.out.println("Ingrese el nuevo nombre de su producto");
         nombre = leer.next();
-        
+
         System.out.println("ingrese el nuevo precio de su producto");
         precio = leer.nextDouble();
-        
+
         System.out.println("Ingrese el nuevo codigo de fabricante, de su producto");
         codigoFabricante = leer.nextInt();
-        
+
         Producto producto = new Producto(nombre, precio, codigoFabricante);
-        
+
         productoDao.modificarProducto(codigoParaBuscar, producto);
-        
+
     }
-    
-    
-    
+
     public void listarNombresDeProductos() throws ClassNotFoundException, SQLException {
-        //productoDao.consultarProductos("nombre");
-
+        productoDao.consultarNombreDeProductos();
     }
 
-    public void listarProductos() throws ClassNotFoundException, SQLException {
-//        productoDao.consultarProductos("*");
+    public void listarNombrePrecioDeProductos() throws ClassNotFoundException, SQLException {
+        productoDao.consultarNombrePrecioDeProductos();
     }
 
     public void listarProductosEntrePrecio120y202() throws ClassNotFoundException, SQLException {
-//        productoDao.consultarProductosSegunCondicion("*", "precio BETWEEN 102 AND 202");
+        productoDao.consultarProductosEntrePrecios(102,202);
     }
 
     public void listarProductosPortatiles() throws ClassNotFoundException, SQLException {
-//        productoDao.consultarProductosSegunCondicion("*", "nombre LIKE ´%Portátil%´");
+        productoDao.consultarProductosPortatiles();
     }
 
     public void listarElProductoMasBarato() throws ClassNotFoundException, SQLException {
-//        productoDao.consultarProductosSegunCondicion("nombre, precio", "precio = "
-//                + "(SELECT MIN(precio) FROM tienda.producto)");
+        productoDao.consultarNombrePrecioDelProductoMasBarato();
     }
 
 }

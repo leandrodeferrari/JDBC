@@ -1,3 +1,4 @@
+
 package tienda;
 
 import java.sql.SQLException;
@@ -70,6 +71,9 @@ public class Tienda {
         ServicioMenu servicioMenu = new ServicioMenu();
         servicioMenu.ejecutarMenu();
         
+        // Averiguar:
+        // Como pasar, por parámetro, los campos
+        // Como pasar la condicion Like, por parámetro
     }
 
 }

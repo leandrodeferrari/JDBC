@@ -17,27 +17,19 @@ public class ServicioFabricante {
 
     public Fabricante crearFabricante() throws ClassNotFoundException, SQLException {
 
-        int codigo;
         String nombre;
 
-        System.out.println("Ingrese el código de su nuevo fabricante");
-        codigo = leer.nextInt();
         System.out.println("Ingrese el nombre de su nuevo fabricante");
         nombre = leer.next();
         
-        Fabricante fabricante = new Fabricante();
-//        if (nombre == null || nombre.trim().isEmpty()) {
-//            throw new RuntimeException("No ha ingresado un nombre");
-//        }
-        if (fabricanteDao.buscarFabricantePorCodigo(codigo).getCodigo() != codigo) {
-            fabricante.setCodigo(codigo);
-            fabricante.setNombre(nombre);
-        } else {
-            System.out.println("Lo siento, ya existe un fabricante con ese código");
+        Fabricante fabricante = new Fabricante(nombre);
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new RuntimeException("No ha ingresado un nombre");
+            // Debería de crear una clase excepcion para esto.
         }
+
         return fabricante;
-        // Debo crear una clase excepción para fabricante
-        // Debo ver lo de las validaciones
+
     }
 
     public void ingresarFabricante(Fabricante fabricante) throws NullPointerException, ClassNotFoundException, SQLException {

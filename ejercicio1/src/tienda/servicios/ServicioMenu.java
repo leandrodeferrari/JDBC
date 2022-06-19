@@ -83,33 +83,44 @@ public class ServicioMenu {
 
             }
 
+            System.out.println("");
+
         }
 
     }
 
     public void ejecutarOpcion1() throws ClassNotFoundException, SQLException {
 
-//        try {
-//            ServicioProducto servicioProducto = new ServicioProducto();
-//            servicioProducto.listarNombresDeProductos();
-//        } catch (ClassNotFoundException | SQLException ex) {
-//            ex.printStackTrace(System.out);
-//        }
-    }
-
-    public void ejecutarOpcion2() {
+        ServicioProducto servicioProducto = new ServicioProducto();
+        servicioProducto.listarNombresDeProductos();
 
     }
 
-    public void ejecutarOpcion3() {
+    public void ejecutarOpcion2() throws ClassNotFoundException, SQLException {
+
+        ServicioProducto servicioProducto = new ServicioProducto();
+        servicioProducto.listarNombrePrecioDeProductos();
 
     }
 
-    public void ejecutarOpcion4() {
+    public void ejecutarOpcion3() throws ClassNotFoundException, SQLException {
+
+        ServicioProducto servicioProducto = new ServicioProducto();
+        servicioProducto.listarProductosEntrePrecio120y202();
 
     }
 
-    public void ejecutarOpcion5() {
+    public void ejecutarOpcion4() throws ClassNotFoundException, SQLException {
+
+        ServicioProducto servicioProducto = new ServicioProducto();
+        servicioProducto.listarProductosPortatiles();
+
+    }
+
+    public void ejecutarOpcion5() throws ClassNotFoundException, SQLException {
+
+        ServicioProducto servicioProducto = new ServicioProducto();
+        servicioProducto.listarElProductoMasBarato();
 
     }
 
@@ -117,10 +128,8 @@ public class ServicioMenu {
 
         ServicioProducto servicioProducto = new ServicioProducto();
         Producto producto = servicioProducto.crearProducto();
-
-        if (producto.getCodigo() != 0) {
-            servicioProducto.ingresarProducto(producto);
-        }
+        
+        servicioProducto.ingresarProducto(producto);
 
     }
 
@@ -136,9 +145,7 @@ public class ServicioMenu {
         ServicioFabricante servicioFabricante = new ServicioFabricante();
         Fabricante fabricante = servicioFabricante.crearFabricante();
 
-        if (fabricante.getCodigo() != 0) {
-            servicioFabricante.ingresarFabricante(fabricante);
-        }
+        servicioFabricante.ingresarFabricante(fabricante);
 
     }
 
