@@ -10,6 +10,20 @@ public final class FabricanteDaoExt extends Dao {
     private final String SQL_INSERT = "INSERT INTO tienda.fabricante(nombre) VALUES(?)";
     private final String SQL_SELECT = "SELECT * FROM tienda.fabricante WHERE codigo = ?";
 
+    @Override
+    public void desconectarBaseDeDatos() throws SQLException{
+        
+        super.desconectarBaseDeDatos();
+        try {
+            if (sentenciaPreparada != null) {
+                sentenciaPreparada.close();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        }
+        
+    }
+    
     public void guardarFabricante(Fabricante fabricante) throws NullPointerException, ClassNotFoundException, SQLException {
 
         try {
