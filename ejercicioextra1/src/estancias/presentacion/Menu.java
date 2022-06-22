@@ -1,9 +1,10 @@
-package estancias.servicios;
+package estancias.presentacion;
 
+import estancias.servicios.*;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-public class ServicioMenu {
+public class Menu {
 
     Scanner leer = new Scanner(System.in).useDelimiter("\n");
 
@@ -140,8 +141,9 @@ public class ServicioMenu {
         servicioCasa.listarCasasLimpiasDelReinoUnido();
     }
 
-    public void ejecutarOpcion10() {
-
+    public void ejecutarOpcion10() throws SQLException, ClassNotFoundException {
+        ServicioEstancia servicioEstancia = new ServicioEstancia();
+        servicioEstancia.ingresarEstancia();
     }
 
     public void ejecutarOpcion11() {

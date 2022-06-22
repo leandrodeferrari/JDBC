@@ -1,6 +1,6 @@
 package estancias;
 
-import estancias.servicios.ServicioMenu;
+import estancias.presentacion.Menu;
 import java.sql.SQLException;
 
 public class Estancias {
@@ -117,7 +117,7 @@ public class Estancias {
     
     */
     
-    ServicioMenu servicioMenu = new ServicioMenu();
+    Menu servicioMenu = new Menu();
     servicioMenu.ejecutarMenu();
     
     }
