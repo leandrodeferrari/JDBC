@@ -7,27 +7,6 @@ public class ServicioMenu {
 
     Scanner leer = new Scanner(System.in).useDelimiter("\n");
 
-    /*    
-    1. Listar aquellas familias que tienen al menos 3 hijos, y con edad máxima inferior a 10 
-    años.
-    2. Buscar y listar las casas disponibles para el periodo comprendido entre el 1 de 
-    agosto de 2020 y el 31 de agosto de 2020 en Reino Unido.
-    3. Encuentra todas aquellas familias cuya dirección de mail sea de Hotmail.
-    4. Consulta la BD para que te devuelva aquellas casas disponibles a partir de una fecha 
-    dada y un número de días específico.
-    5. Listar los datos de todos los clientes que en algún momento realizaron una estancia 
-    y la descripción de la casa donde la realizaron.
-    6. Listar todas las estancias que han sido reservadas por un cliente, mostrar el nombre, 
-    país y ciudad del cliente y además la información de la casa que reservó. La que 
-    reemplazaría a la anterior.
-    7. Debido a la devaluación de la libra esterlina con respecto al euro se desea 
-    incrementar el precio por día en un 5% de todas las casas del Reino Unido. Mostar 
-    los precios actualizados.
-    8. Obtener el número de casas que existen para cada uno de los países diferentes.
-    9. Busca y listar aquellas casas del Reino Unido de las que se ha dicho de ellas 
-    (comentarios) que están ‘limpias’.
-    10. Insertar nuevos datos en la tabla estancias verificando la disponibilidad de las fechas.
-     */
     public void vistaMenu() {
 
         System.out.println("¡Bienvenido a Estancias!");
@@ -44,19 +23,6 @@ public class ServicioMenu {
         System.out.println("10. Insertar nuevos datos en la tabla estancias verificando la disponibilidad de las fechas.");
         System.out.println("11. Salir");
 
-        /*
-        1. Familia consulta
-        2. Casa cosnutla
-        4. casa consulta
-        5. clientes consulta
-        6. estancias consutla cliente
-        7. casa incrementar y mostrear
-        8. casas consular
-        9. casas consulta comentarios
-        10. estancias insertar 
-        */
-        //estancia cliente casa comentarios 
-        
     }
 
     public void ejecutarMenu() throws ClassNotFoundException, SQLException {
@@ -129,53 +95,57 @@ public class ServicioMenu {
 
     }
 
-    public void ejecutarOpcion1() throws ClassNotFoundException, SQLException{
+    public void ejecutarOpcion1() throws ClassNotFoundException, SQLException {
         ServicioFamilia servicioFamilia = new ServicioFamilia();
         servicioFamilia.listarFamiliasConEdadMinima10AdemasDeTenerMinimo3NumeroDeHijos();
     }
-    
-    public void ejecutarOpcion2(){
-        
+
+    public void ejecutarOpcion2() throws ClassNotFoundException, SQLException {
+        ServicioCasa servicioCasa = new ServicioCasa();
+        servicioCasa.listarCasasDeReinoUnidoDeAgosto();
     }
-    
-    public void ejecutarOpcion3() throws ClassNotFoundException, SQLException{
+
+    public void ejecutarOpcion3() throws ClassNotFoundException, SQLException {
         ServicioFamilia servicioFamilia = new ServicioFamilia();
         servicioFamilia.listarFamiliasConHotmail();
     }
-    
-    public void ejecutarOpcion4(){
-        
-    }
-    
-    public void ejecutarOpcion5(){
-        
-    }
-    
-    public void ejecutarOpcion6(){
-        
-    }
-    
-    public void ejecutarOpcion7(){
-        
-    }
-    
-    public void ejecutarOpcion8(){
-        
-    }
-    
-    public void ejecutarOpcion9(){
-        
-    }
-    
-    public void ejecutarOpcion10(){
-        
-    }
-    
-    public void ejecutarOpcion11(){
-        
-    }
-    
-    
-    
-}
 
+    public void ejecutarOpcion4() throws ClassNotFoundException, SQLException {
+        ServicioCasa servicioCasa = new ServicioCasa();
+        servicioCasa.listarCasasPorFechaTiempo();
+    }
+
+    public void ejecutarOpcion5() throws SQLException, ClassNotFoundException {
+        ServicioCliente servicioCliente = new ServicioCliente();
+        servicioCliente.listarClientesQueRealizaronEstanciaAlgunaVez();
+    }
+
+    public void ejecutarOpcion6() throws SQLException, ClassNotFoundException {
+        ServicioEstancia servicioEstancia = new ServicioEstancia();
+        servicioEstancia.listarEstanciasReservadasSegunClienteAdemasDeCasa();
+    }
+
+    public void ejecutarOpcion7() throws ClassNotFoundException, SQLException {
+        ServicioCasa servicioCasa = new ServicioCasa();
+        servicioCasa.incrementarPrecioHabitacionUn5PorcientoAdemasDeMostrarlo();
+    }
+
+    public void ejecutarOpcion8() throws ClassNotFoundException, SQLException {
+        ServicioCasa servicioCasa = new ServicioCasa();
+        servicioCasa.obtenerNumeroDeCasasPorPais();
+    }
+
+    public void ejecutarOpcion9() throws ClassNotFoundException, SQLException {
+        ServicioCasa servicioCasa = new ServicioCasa();
+        servicioCasa.listarCasasLimpiasDelReinoUnido();
+    }
+
+    public void ejecutarOpcion10() {
+
+    }
+
+    public void ejecutarOpcion11() {
+        System.out.println("¡Hasta la próxima!");
+    }
+
+}
