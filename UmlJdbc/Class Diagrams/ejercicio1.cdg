@@ -12,9 +12,10 @@
       <Constructors/>
       <Methods>
         <Method name="crearProducto" returnType="Producto" visibility="public"/>
+        <Method name="ingresarProducto" returnType="void" visibility="public"/>
       </Methods>
     </Class>
-    <Class name="Fabricante" package="" visibility="public" xPosition="44.0" yPosition="217.0">
+    <Class name="Fabricante" package="" visibility="public" xPosition="44.0" yPosition="264.0">
       <Fields>
         <Field name="codigo" type="int" visibility="private"/>
         <Field name="nombre" type="String" visibility="private"/>
@@ -22,16 +23,23 @@
       <Constructors/>
       <Methods>
         <Method name="crearFabricante" returnType="Fabricante" visibility="public"/>
+        <Method name="ingresarFabricante" returnType="void" visibility="public"/>
+        <Method name="modificarTodosLosDatosDeUnProducto" returnType="void" visibility="public"/>
+        <Method name="listarNombresDeProductos" returnType="void" visibility="public"/>
+        <Method name="listarNombrePrecioDeProductos" returnType="void" visibility="public"/>
+        <Method name="listarProductosEntrePrecio120y202" returnType="void" visibility="public"/>
+        <Method name="listarProductosPortatiles" returnType="void" visibility="public"/>
+        <Method name="listarProductosMasBaratos" returnType="void" visibility="public"/>
       </Methods>
     </Class>
-    <Class name="Dao" package="" visibility="public" xPosition="288.0" yPosition="19.0">
+    <Class name="Dao" package="" visibility="public" xPosition="1002.0" yPosition="19.0">
       <Fields>
         <Field name="conexion" type="Connection" visibility="protected"/>
         <Field name="sentencia" type="Statement" visibility="protected"/>
         <Field name="resultado" type="ResultSet" visibility="protected"/>
-        <Field name="USER" type="String" visibility="private" isFinal="true"/>
-        <Field name="PASSWORD" type="String" visibility="private" isFinal="true"/>
-        <Field name="DATABASE" type="String" visibility="private" isFinal="true"/>
+        <Field name="USUARIO" type="String" visibility="private" isFinal="true"/>
+        <Field name="CONTRASENIA" type="String" visibility="private" isFinal="true"/>
+        <Field name="BASE_DE_DATOS" type="String" visibility="private" isFinal="true"/>
         <Field name="DRIVER" type="String" visibility="private" isFinal="true"/>
       </Fields>
       <Constructors/>
@@ -41,33 +49,59 @@
         <Method name="insertarModificarEliminar" returnType="void" visibility="protected">
           <Argument type="String" name="sql"/>
         </Method>
-        <Method name="consultarBaseDeDatos" returnType="void" visibility="public">
+        <Method name="consultarBaseDeDatos" returnType="ResultSet" visibility="protected">
           <Argument type="String" name="sql"/>
         </Method>
       </Methods>
     </Class>
-    <Class name="Menu" package="" visibility="public" xPosition="44.0" yPosition="379.0">
-      <Fields/>
+    <Class name="Menu" package="" visibility="public" xPosition="368.0" yPosition="19.0">
+      <Fields>
+        <Field name="opcion" type="integer" visibility="private"/>
+      </Fields>
       <Constructors/>
       <Methods/>
     </Class>
-    <Class name="FabricanteDaoExt" package="" visibility="public" xPosition="288.0" yPosition="379.0">
+    <Class name="FabricanteDaoExt" package="" visibility="public" xPosition="712.0" yPosition="508.0">
       <Fields/>
       <Constructors/>
       <Methods>
         <Method name="guardarFabricante" returnType="void" visibility="public">
           <Argument type="Fabricante" name="fabricante"/>
         </Method>
+        <Method name="buscarFabricantePorCodigo" returnType="Fabricante" visibility="public">
+          <Argument type="int" name="codigoFabricante"/>
+        </Method>
       </Methods>
     </Class>
-    <Class name="ProductoDaoExt" package="" visibility="public" xPosition="600.0" yPosition="217.0">
+    <Class name="ProductoDaoExt" package="" visibility="public" xPosition="438.0" yPosition="179.0">
       <Fields/>
       <Constructors/>
-      <Methods/>
+      <Methods>
+        <Method name="guardarProducto" returnType="void" visibility="public">
+          <Argument type="Producto" name="producto"/>
+        </Method>
+        <Method name="modificarProducto" returnType="void" visibility="public">
+          <Argument type="Producto" name="producto"/>
+        </Method>
+        <Method name="buscarProductoPorCodigo" returnType="Producto" visibility="public">
+          <Argument type="int" name="codigoProducto"/>
+        </Method>
+        <Method name="consultarProductos" returnType="List&lt;Producto&gt;" visibility="public"/>
+        <Method name="consultarProductosEntrePrecios" returnType="List&lt;Producto&gt;" visibility="public">
+          <Argument type="double" name="precio1"/>
+          <Argument type="double" name="precio2"/>
+        </Method>
+        <Method name="consultarProductosPortatiles" returnType="List&lt;Producto&gt;" visibility="public"/>
+        <Method name="consultarLosProductosMasBaratos" returnType="List&lt;Producto&gt;" visibility="public"/>
+      </Methods>
     </Class>
   </ClassDiagramComponents>
   <ClassDiagramRelations>
+    <HasRelation name="Tiene" source="ProductoDaoExt" target="Producto" type="Aggregation" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <HasRelation name="Usa" source="Producto" target="Menu" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
     <IsRelation name="is" source="FabricanteDaoExt" target="Dao"/>
     <IsRelation name="is" source="ProductoDaoExt" target="Dao"/>
+    <HasRelation name="Tiene" source="FabricanteDaoExt" target="Fabricante" type="Aggregation" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <HasRelation name="Usa" source="Fabricante" target="Menu" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
   </ClassDiagramRelations>
 </ClassDiagram>

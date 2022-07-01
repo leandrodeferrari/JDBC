@@ -1,52 +1,38 @@
 package tienda.persistencia;
 
 import java.sql.*;
+import java.util.*;
 import tienda.entidades.Producto;
 
 public final class ProductoDaoExt extends Dao {
 
-    private final String SQL_INSERT = "INSERT INTO tienda.producto(nombre, precio, codigo_fabricante) VALUES(?, ?, ?)";
-    private final String SQL_SELECT = "SELECT * FROM tienda.producto WHERE codigo = ?";
-    private final String SQL_SELECT_NOMBRE_LIKE = "SELECT * FROM tienda.producto WHERE nombre LIKE '%Portátil%'";
-    private final String SQL_SELECT_NOMBRES = "SELECT nombre FROM tienda.producto";
-    private final String SQL_SELECT_NOMBRES_PRECIO = "SELECT nombre, precio FROM tienda.producto";
-    private final String SQL_SELECT_ENTRE_PRECIO = "SELECT * FROM tienda.producto WHERE precio BETWEEN ? AND ?";
-    private final String SQL_SELECT_MAS_BARATO = "SELECT nombre, precio FROM tienda.producto WHERE precio = (SELECT MIN(precio) FROM tienda.producto)";
-    private final String SQL_UPDATE = "UPDATE tienda.producto SET nombre = ?, precio = ?, codigo_fabricante = ? WHERE codigo = ?";
+    public void guardarProducto(Producto producto) throws NullPointerException, ClassNotFoundException, SQLException {
 
-    private PreparedStatement sentenciaPreparada;
-
-    @Override
-    public void desconectarBaseDeDatos() throws SQLException {
-
-        super.desconectarBaseDeDatos();
         try {
-            if (sentenciaPreparada != null) {
-                sentenciaPreparada.close();
+            if (producto != null) {
+                String sql = "INSERT INTO producto(nombre, precio, codigo_fabricante) "
+                        + "VALUES('" + producto.getNombre() + "', " + producto.getPrecio() + ", "
+                        + producto.getCodigoFabricante() + ")";
+                insertarModificarEliminar(sql);
             }
-        } catch (SQLException ex) {
+        } catch (NullPointerException ex) {
             ex.printStackTrace(System.out);
         }
 
     }
 
-    public void guardarProducto(Producto producto) throws NullPointerException, ClassNotFoundException, SQLException {
+    public void modificarProducto(Producto producto) throws ClassNotFoundException, SQLException {
 
-        try {
-            if (producto == null) {
-                throw new NullPointerException("No ha indicado un producto");
-            } else {
-                conectarBaseDeDatos();
-                sentenciaPreparada = conexion.prepareStatement(SQL_INSERT);
-                sentenciaPreparada.setString(1, producto.getNombre());
-                sentenciaPreparada.setDouble(2, producto.getPrecio());
-                sentenciaPreparada.setInt(3, producto.getCodigoFabricante());
-                sentenciaPreparada.executeUpdate();
-            }
-        } catch (ClassNotFoundException | SQLException ex) {
-            ex.printStackTrace(System.out);
-        } finally {
-            desconectarBaseDeDatos();
+        Producto productoEncontrado = buscarProductoPorCodigo(producto.getCodigo());
+
+        if (productoEncontrado != null) {
+            String sql = "UPDATE producto SET nombre = '" + producto.getNombre()
+                    + "', precio = " + producto.getPrecio()
+                    + ", codigo_fabricante = " + producto.getCodigoFabricante()
+                    + " WHERE codigo = " + producto.getCodigo();
+            insertarModificarEliminar(sql);
+        } else if (productoEncontrado == null) {
+            System.out.println("Lo siento, no hay producto con ese código");
         }
 
     }
@@ -54,138 +40,111 @@ public final class ProductoDaoExt extends Dao {
     public Producto buscarProductoPorCodigo(int codigoProducto) throws ClassNotFoundException, SQLException {
 
         Producto producto = new Producto();
+        String sql = "SELECT * FROM producto WHERE codigo = " + codigoProducto;
 
-        try {
-            conectarBaseDeDatos();
-            sentenciaPreparada = conexion.prepareStatement(SQL_SELECT);
-            sentenciaPreparada.setInt(1, codigoProducto);
-            resultado = sentenciaPreparada.executeQuery();
-            if (resultado == null) {
-                throw new NullPointerException("Lo siento, no se encontró ese producto");
-            } else {
-                while (resultado.next()) {
-                    producto.setCodigo(resultado.getInt("codigo"));
-                    producto.setNombre(resultado.getString("nombre"));
-                    producto.setPrecio(resultado.getDouble("precio"));
-                    producto.setCodigoFabricante(resultado.getInt("codigo_fabricante"));
-                }
+        this.resultado = consultarBaseDeDatos(sql);
+
+        if (resultado != null) {
+            while (resultado.next()) {
+                producto.setCodigo(resultado.getInt("codigo"));
+                producto.setNombre(resultado.getString("nombre"));
+                producto.setPrecio(resultado.getDouble("precio"));
+                producto.setCodigoFabricante(resultado.getInt("codigo_fabricante"));
             }
-        } catch (ClassNotFoundException | SQLException ex) {
-            ex.printStackTrace(System.out);
-        } finally {
-            desconectarBaseDeDatos();
         }
 
         return producto;
 
     }
 
-    public void modificarProducto(int codigoProductoParaBuscar, Producto producto) throws ClassNotFoundException, SQLException {
+    public List<Producto> consultarProductos() throws ClassNotFoundException, SQLException {
 
-        Producto productoEncontrado = buscarProductoPorCodigo(codigoProductoParaBuscar);
+        List<Producto> productos = new ArrayList<>();
+        String sql = "SELECT * FROM producto";
 
-        if (productoEncontrado.getCodigo() != codigoProductoParaBuscar) {
-            System.out.println("Lo siento, no hay producto con ese código");
-        } else {
+        this.resultado = consultarBaseDeDatos(sql);
 
-            try {
-                conectarBaseDeDatos();
-                sentenciaPreparada = conexion.prepareStatement(SQL_UPDATE);
-                sentenciaPreparada.setString(1, producto.getNombre());
-                sentenciaPreparada.setDouble(2, producto.getPrecio());
-                sentenciaPreparada.setInt(3, producto.getCodigoFabricante());
-                sentenciaPreparada.setInt(4, codigoProductoParaBuscar);
-                sentenciaPreparada.executeUpdate();
-            } catch (ClassNotFoundException | SQLException ex) {
-                ex.printStackTrace(System.out);
-            } finally {
-                desconectarBaseDeDatos();
+        if (resultado != null) {
+            while (resultado.next()) {
+                Producto producto = new Producto();
+                producto.setCodigo(resultado.getInt("codigo"));
+                producto.setNombre(resultado.getString("nombre"));
+                producto.setPrecio(resultado.getDouble("precio"));
+                producto.setCodigoFabricante(resultado.getInt("codigo_fabricante"));
+                productos.add(producto);
             }
-
         }
+
+        return productos;
 
     }
 
-    public void consultarNombreDeProductos() throws SQLException {
+    public List<Producto> consultarProductosEntrePrecios(double precio1, double precio2) throws ClassNotFoundException, SQLException {
 
-        try {
-            conectarBaseDeDatos();
-            consultarBaseDeDatos(SQL_SELECT_NOMBRES);
+        List<Producto> productos = new ArrayList<>();
+        String sql = "SELECT * FROM producto WHERE precio BETWEEN " + precio1 + " AND " + precio2;
+
+        this.resultado = consultarBaseDeDatos(sql);
+
+        if (resultado != null) {
             while (resultado.next()) {
-                System.out.println(resultado.getString("nombre"));
+                Producto producto = new Producto();
+                producto.setCodigo(resultado.getInt("codigo"));
+                producto.setNombre(resultado.getString("nombre"));
+                producto.setPrecio(resultado.getDouble("precio"));
+                producto.setCodigoFabricante(resultado.getInt("codigo_fabricante"));
+                productos.add(producto);
             }
-        } catch (ClassNotFoundException | SQLException ex) {
-            ex.printStackTrace(System.out);
-        } finally {
-            desconectarBaseDeDatos();
+
         }
+
+        return productos;
 
     }
 
-    public void consultarNombrePrecioDeProductos() throws ClassNotFoundException, SQLException {
+    public List<Producto> consultarProductosPortatiles() throws ClassNotFoundException, SQLException {
 
-        try {
-            conectarBaseDeDatos();
-            consultarBaseDeDatos(SQL_SELECT_NOMBRES_PRECIO);
+        List<Producto> productos = new ArrayList<>();
+        String textoPortatilSql = "'%Portátil%'";
+        String sql = "SELECT * FROM tienda.producto WHERE nombre LIKE " + textoPortatilSql;
+
+        this.resultado = consultarBaseDeDatos(sql);
+
+        if (resultado != null) {
             while (resultado.next()) {
-                System.out.println(resultado.getString("nombre") + " " + resultado.getDouble("precio"));
+                Producto producto = new Producto();
+                producto.setCodigo(resultado.getInt("codigo"));
+                producto.setNombre(resultado.getString("nombre"));
+                producto.setPrecio(resultado.getDouble("precio"));
+                producto.setCodigoFabricante(resultado.getInt("codigo_fabricante"));
+                productos.add(producto);
             }
-        } catch (ClassNotFoundException | SQLException ex) {
-            ex.printStackTrace(System.out);
-        } finally {
-            desconectarBaseDeDatos();
+
         }
+
+        return productos;
 
     }
 
-    public void consultarProductosEntrePrecios(double precio1, double precio2) throws ClassNotFoundException, SQLException {
+    public List<Producto> consultarLosProductosMasBaratos() throws ClassNotFoundException, SQLException {
 
-        try {
-            conectarBaseDeDatos();
-            sentenciaPreparada = conexion.prepareStatement(SQL_SELECT_ENTRE_PRECIO);
-            sentenciaPreparada.setDouble(1, precio1);
-            sentenciaPreparada.setDouble(2, precio2);
-            resultado = sentenciaPreparada.executeQuery();
+        List<Producto> productos = new ArrayList<>();
+        String sql = "SELECT * FROM producto WHERE precio = (SELECT MIN(precio) FROM tienda.producto)";
+
+        this.resultado = consultarBaseDeDatos(sql);
+
+        if (resultado != null) {
             while (resultado.next()) {
-                System.out.println(resultado.getInt("codigo") + " " + resultado.getString("nombre") + " " + resultado.getDouble("precio") + " " + resultado.getInt("codigo_fabricante"));
+                Producto producto = new Producto();
+                producto.setCodigo(resultado.getInt("codigo"));
+                producto.setNombre(resultado.getString("nombre"));
+                producto.setPrecio(resultado.getDouble("precio"));
+                producto.setCodigoFabricante(resultado.getInt("codigo_fabricante"));
+                productos.add(producto);
             }
-        } catch (ClassNotFoundException | SQLException ex) {
-            ex.printStackTrace(System.out);
-        } finally {
-            desconectarBaseDeDatos();
         }
 
-    }
-
-    public void consultarProductosPortatiles() throws ClassNotFoundException, SQLException {
-
-        try {
-            conectarBaseDeDatos();
-            consultarBaseDeDatos(SQL_SELECT_NOMBRE_LIKE);
-            while (resultado.next()) {
-                System.out.println(resultado.getInt("codigo") + " " + resultado.getString("nombre") + " " + resultado.getDouble("precio") + " " + resultado.getInt("codigo_fabricante"));
-            }
-        } catch (ClassNotFoundException | SQLException ex) {
-            ex.printStackTrace(System.out);
-        } finally {
-            desconectarBaseDeDatos();
-        }
-
-    }
-
-    public void consultarNombrePrecioDelProductoMasBarato() throws ClassNotFoundException, SQLException {
-
-        try {
-            conectarBaseDeDatos();
-            consultarBaseDeDatos(SQL_SELECT_MAS_BARATO);
-            while (resultado.next()) {
-                System.out.println(resultado.getString("nombre") + " " + resultado.getDouble("precio"));
-            }
-        } catch (ClassNotFoundException | SQLException ex) {
-            ex.printStackTrace(System.out);
-        } finally {
-            desconectarBaseDeDatos();
-        }
+        return productos;
 
     }
 

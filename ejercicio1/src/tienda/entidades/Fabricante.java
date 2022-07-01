@@ -36,7 +36,7 @@ public class Fabricante {
 
     @Override
     public String toString() {
-        return "Fabricante{" + "codigo=" + codigo + ", nombre=" + nombre + '}';
+        return "Fabricante{" + "codigo = " + codigo + ", nombre = " + nombre + '}';
     }
     
 }

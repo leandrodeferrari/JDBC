@@ -1,9 +1,11 @@
 package tienda.servicios;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 import tienda.entidades.Producto;
 import tienda.persistencia.ProductoDaoExt;
+import tienda.servicios.excepciones.ProductoExcepcion;
 
 public class ServicioProducto {
 
@@ -15,84 +17,154 @@ public class ServicioProducto {
         this.productoDao = new ProductoDaoExt();
     }
 
-    public Producto crearProducto() throws RuntimeException, ClassNotFoundException, SQLException {
+    public Producto crearProducto() {
 
         int codigoFabricante;
         String nombre;
         double precio;
 
-        System.out.println("Ingrese el nombre del producto");
+        System.out.println("Ingrese el nombre del producto:");
         nombre = leer.next();
 
-        System.out.println("Ingrese el precio del producto");
-        precio = leer.nextDouble();
-
-        System.out.println("Ingrese el código del fabricante, del producto");
-        codigoFabricante = leer.nextInt();
-
-        Producto producto = new Producto(nombre, precio, codigoFabricante);
-
-        if (nombre == null || nombre.trim().isEmpty()){
-            throw new RuntimeException("No ha ingresado un nombre");
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new ProductoExcepcion("No ha ingresado un nombre");
         }
 
-        return producto;
-        // Tengo que crear una clase expeción para Producto
-        // Me falta validar los atributos del producto
-    }
-
-    public void ingresarProducto(Producto producto) throws ClassNotFoundException, SQLException {
+        try {
+            System.out.println("Ingrese el precio del producto:");
+            precio = leer.nextDouble();
+        } catch (ProductoExcepcion ex) {
+            throw new ProductoExcepcion("No ha ingresado el precio");
+        }
 
         try {
+            System.out.println("Ingrese el código del fabricante, del producto:");
+            codigoFabricante = leer.nextInt();
+        } catch (ProductoExcepcion ex) {
+            throw new ProductoExcepcion("No ha ingresado el código del fabricante, del producto, o no existe un fabricante, con ese código");
+        }
+
+        return new Producto(nombre, precio, codigoFabricante);
+
+    }
+
+    public void ingresarProducto(Producto producto) throws NullPointerException, ClassNotFoundException, SQLException {
+
+        if (producto != null) {
             productoDao.guardarProducto(producto);
-        } catch (ClassNotFoundException | SQLException ex) {
-            ex.printStackTrace(System.out);
+        } else if (producto == null) {
+            throw new ProductoExcepcion("Ha ingresado un producto inválido");
         }
 
     }
 
     public void modificarTodosLosDatosDeUnProducto() throws ClassNotFoundException, SQLException {
 
-        int codigoParaBuscar, codigoFabricante;
+        int codigo, codigoFabricante;
         String nombre;
         double precio;
 
-        System.out.println("Ingrese el código del producto que desea modificar");
-        codigoParaBuscar = leer.nextInt();
+        try {
+            System.out.println("Ingrese el código del producto que desea modificar:");
+            codigo = leer.nextInt();
+        } catch (ProductoExcepcion ex) {
+            throw new ProductoExcepcion("No ha ingresado el código del producto");
+        }
 
-        System.out.println("Ingrese el nuevo nombre de su producto");
+        System.out.println("Ingrese el nuevo nombre de su producto:");
         nombre = leer.next();
 
-        System.out.println("ingrese el nuevo precio de su producto");
-        precio = leer.nextDouble();
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new ProductoExcepcion("No ha ingresado un nombre");
+        }
 
-        System.out.println("Ingrese el nuevo codigo de fabricante, de su producto");
-        codigoFabricante = leer.nextInt();
+        try {
+            System.out.println("ingrese el nuevo precio de su producto:");
+            precio = leer.nextDouble();
+        } catch (ProductoExcepcion ex) {
+            throw new ProductoExcepcion("No ha ingresado el nuevo precio del producto");
+        }
 
-        Producto producto = new Producto(nombre, precio, codigoFabricante);
+        try {
+            System.out.println("Ingrese el nuevo codigo de fabricante, de su producto:");
+            codigoFabricante = leer.nextInt();
+        } catch (ProductoExcepcion ex) {
+            throw new ProductoExcepcion("No ha ingresado el nuevo código del fabricante, del producto");
+        }
 
-        productoDao.modificarProducto(codigoParaBuscar, producto);
+        Producto producto = new Producto(codigo, nombre, precio, codigoFabricante);
+
+        productoDao.modificarProducto(producto);
 
     }
 
     public void listarNombresDeProductos() throws ClassNotFoundException, SQLException {
-        productoDao.consultarNombreDeProductos();
+
+        List<Producto> productos = productoDao.consultarProductos();
+        if (!productos.isEmpty()) {
+            productos.forEach((producto) -> {
+                System.out.println(producto.getNombre());
+            });
+        } else {
+            System.out.println("No hay productos para listar");
+        }
+
     }
 
     public void listarNombrePrecioDeProductos() throws ClassNotFoundException, SQLException {
-        productoDao.consultarNombrePrecioDeProductos();
+
+        List<Producto> productos = productoDao.consultarProductos();
+        if (!productos.isEmpty()) {
+            productos.forEach((producto) -> {
+                System.out.println(producto.getNombre() + " " + producto.getPrecio());
+            });
+        } else {
+            System.out.println("No hay productos para listar");
+        }
+
     }
 
     public void listarProductosEntrePrecio120y202() throws ClassNotFoundException, SQLException {
-        productoDao.consultarProductosEntrePrecios(102,202);
+
+        List<Producto> productos = productoDao.consultarProductosEntrePrecios(102, 202);
+
+        if (!productos.isEmpty()) {
+            productos.forEach((producto) -> {
+                System.out.println(producto.toString());
+            });
+        } else {
+            System.out.println("No hay productos entre 120 y 202 pesos");
+        }
+
     }
 
     public void listarProductosPortatiles() throws ClassNotFoundException, SQLException {
-        productoDao.consultarProductosPortatiles();
+
+        List<Producto> productos = productoDao.consultarProductosPortatiles();
+
+        if (!productos.isEmpty()) {
+            productos.forEach((producto) -> {
+                System.out.println(producto.toString());
+            });
+        } else {
+            System.out.println("No hay productos portátiles");
+        }
+
     }
 
-    public void listarElProductoMasBarato() throws ClassNotFoundException, SQLException {
-        productoDao.consultarNombrePrecioDelProductoMasBarato();
+    public void listarProductosMasBaratos() throws ClassNotFoundException, SQLException {
+
+        List<Producto> productos = productoDao.consultarLosProductosMasBaratos();
+
+        if (!productos.isEmpty()) {
+            productos.forEach((producto) -> {
+                System.out.println(producto.toString());
+            });
+
+        } else {
+            System.out.println("No es posible encontrar el/los productos más baratos");
+        }
+
     }
 
 }

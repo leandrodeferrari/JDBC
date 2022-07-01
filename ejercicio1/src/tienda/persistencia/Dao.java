@@ -13,7 +13,7 @@ public abstract class Dao {
     private final String DATABASE = "tienda";
     private final String DRIVER = "com.mysql.jdbc.Driver";
 
-    protected void conectarBaseDeDatos() throws ClassNotFoundException, SQLException{
+    protected void conectarBaseDeDatos() throws ClassNotFoundException, SQLException {
 
         try {
             Class.forName(DRIVER);
@@ -25,8 +25,8 @@ public abstract class Dao {
 
     }
 
-    protected void desconectarBaseDeDatos() throws SQLException{
-        
+    protected void desconectarBaseDeDatos() throws SQLException {
+
         try {
             if (resultado != null) {
                 resultado.close();
@@ -40,28 +40,25 @@ public abstract class Dao {
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
         }
-        
-    }    
-    
-    protected void insertarModificarEliminar(String sql) throws ClassNotFoundException, SQLException{
-        
+
+    }
+
+    protected void insertarModificarEliminar(String sql) throws ClassNotFoundException, SQLException {
+
         try {
             conectarBaseDeDatos();
             sentencia = conexion.createStatement();
             sentencia.executeUpdate(sql);
         } catch (ClassNotFoundException | SQLException ex) {
-            // conexion.rollback(); AVERIGUAR COMO USAR ESTO
-            // SET autocommit = 1;
-            // COMMIT;
             ex.printStackTrace(System.out);
         } finally {
             desconectarBaseDeDatos();
         }
-        
+
     }
- 
-    protected void consultarBaseDeDatos(String sql) throws ClassNotFoundException, SQLException{
-        
+
+    protected ResultSet consultarBaseDeDatos(String sql) throws ClassNotFoundException, SQLException {
+
         try {
             conectarBaseDeDatos();
             sentencia = conexion.createStatement();
@@ -69,7 +66,9 @@ public abstract class Dao {
         } catch (ClassNotFoundException | SQLException ex) {
             ex.printStackTrace(System.out);
         }
-        
+
+        return resultado;
+
     }
-    
+
 }

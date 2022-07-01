@@ -1,13 +1,19 @@
-package tienda.servicios;
+package tienda.presentacion;
 
 import java.sql.SQLException;
 import java.util.Scanner;
-import tienda.entidades.Fabricante;
-import tienda.entidades.Producto;
+import tienda.entidades.*;
+import tienda.presentacion.excepciones.MenuExcepcion;
+import tienda.servicios.*;
 
-public class ServicioMenu {
+public class Menu {
 
     Scanner leer = new Scanner(System.in).useDelimiter("\n");
+    private Integer opcion;
+
+    public Menu() {
+        this.opcion = 0;
+    }
 
     public void vistaMenu() {
 
@@ -23,20 +29,21 @@ public class ServicioMenu {
         System.out.println("7. Modificar un producto");
         System.out.println("8. Ingresar un fabricante");
         System.out.println("9. Salir");
-        System.out.println("");
 
     }
 
     public void ejecutarMenu() throws ClassNotFoundException, SQLException {
 
-        int opcion = 0;
-
         while (opcion != 9) {
 
             vistaMenu();
 
-            System.out.println("Ingrese su opción:");
-            opcion = leer.nextInt();
+            try {
+                System.out.println("Ingrese su opción:");
+                this.opcion = leer.nextInt();
+            } catch (MenuExcepcion ex) {
+                throw new MenuExcepcion("No ha ingresado una opción");
+            }
 
             switch (opcion) {
 
@@ -77,13 +84,9 @@ public class ServicioMenu {
                     break;
 
                 default:
-                    System.out.println("Error al ingresar la opción");
-                    opcion = 9;
-                    ejecutarOpcion9();
+                    ejecutarOpcionDefault();
 
             }
-
-            System.out.println("");
 
         }
 
@@ -120,7 +123,7 @@ public class ServicioMenu {
     public void ejecutarOpcion5() throws ClassNotFoundException, SQLException {
 
         ServicioProducto servicioProducto = new ServicioProducto();
-        servicioProducto.listarElProductoMasBarato();
+        servicioProducto.listarProductosMasBaratos();
 
     }
 
@@ -128,7 +131,11 @@ public class ServicioMenu {
 
         ServicioProducto servicioProducto = new ServicioProducto();
         Producto producto = servicioProducto.crearProducto();
-        
+
+        if (producto == null) {
+            throw new MenuExcepcion("Ha ingresado un producto");
+        }
+
         servicioProducto.ingresarProducto(producto);
 
     }
@@ -145,6 +152,10 @@ public class ServicioMenu {
         ServicioFabricante servicioFabricante = new ServicioFabricante();
         Fabricante fabricante = servicioFabricante.crearFabricante();
 
+        if (fabricante == null) {
+            throw new MenuExcepcion("Ha ingresado un fabricante");
+        }
+
         servicioFabricante.ingresarFabricante(fabricante);
 
     }
@@ -152,6 +163,13 @@ public class ServicioMenu {
     public void ejecutarOpcion9() {
 
         System.out.println("¡Hasta la próxima!");
+
+    }
+
+    public void ejecutarOpcionDefault() {
+
+        System.out.println("Error al ingresar la opción");
+        this.opcion = 0;
 
     }
 
