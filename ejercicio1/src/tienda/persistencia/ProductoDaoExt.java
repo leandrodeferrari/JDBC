@@ -53,6 +53,8 @@ public final class ProductoDaoExt extends Dao {
             }
         }
 
+        desconectarBaseDeDatos();
+        
         return producto;
 
     }
@@ -75,6 +77,8 @@ public final class ProductoDaoExt extends Dao {
             }
         }
 
+        desconectarBaseDeDatos();
+        
         return productos;
 
     }
@@ -98,6 +102,8 @@ public final class ProductoDaoExt extends Dao {
 
         }
 
+        desconectarBaseDeDatos();
+        
         return productos;
 
     }
@@ -122,6 +128,8 @@ public final class ProductoDaoExt extends Dao {
 
         }
 
+        desconectarBaseDeDatos();
+        
         return productos;
 
     }
@@ -144,6 +152,8 @@ public final class ProductoDaoExt extends Dao {
             }
         }
 
+        desconectarBaseDeDatos();
+        
         return productos;
 
     }

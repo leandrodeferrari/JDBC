@@ -32,6 +32,8 @@ public final class FabricanteDaoExt extends Dao {
             }
         }
 
+        desconectarBaseDeDatos();
+        
         return fabricante;
 
     }

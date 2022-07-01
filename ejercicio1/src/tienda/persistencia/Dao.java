@@ -65,6 +65,8 @@ public abstract class Dao {
             resultado = sentencia.executeQuery(sql);
         } catch (ClassNotFoundException | SQLException ex) {
             ex.printStackTrace(System.out);
+        } finally {
+            desconectarBaseDeDatos();
         }
 
         return resultado;
