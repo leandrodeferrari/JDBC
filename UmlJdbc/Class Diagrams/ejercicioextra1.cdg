@@ -2,7 +2,7 @@
 
 <ClassDiagram name="ejercicio1extra">
   <ClassDiagramComponents>
-    <Class name="Casa" package="" visibility="public" xPosition="30.0" yPosition="17.0">
+    <Class name="Casa" package="" visibility="public" xPosition="0.0" yPosition="317.0">
       <Fields>
         <Field name="idCasa" type="int" visibility="private"/>
         <Field name="calle" type="String" visibility="private"/>
@@ -18,9 +18,15 @@
         <Field name="tipoVivienda" type="String" visibility="private"/>
       </Fields>
       <Constructors/>
-      <Methods/>
+      <Methods>
+        <Method name="listarCasasDeReinoUnidoDeAgosto" returnType="void" visibility="public"/>
+        <Method name="listarCasasPorFechaTiempo" returnType="void" visibility="public"/>
+        <Method name="incrementarPrecioHabitacionUn5PorCientoAdemasDeMostrarlo" returnType="void" visibility="public"/>
+        <Method name="obtenerNumeroDeCasasPorPais" returnType="void" visibility="public"/>
+        <Method name="listarCasasLimpiasDelReinoUnido" returnType="void" visibility="public"/>
+      </Methods>
     </Class>
-    <Class name="Cliente" package="" visibility="public" xPosition="270.0" yPosition="17.0">
+    <Class name="Cliente" package="" visibility="public" xPosition="56.0" yPosition="34.0">
       <Fields>
         <Field name="idCliente" type="int" visibility="private"/>
         <Field name="nombre" type="String" visibility="private"/>
@@ -32,9 +38,11 @@
         <Field name="email" type="String" visibility="private"/>
       </Fields>
       <Constructors/>
-      <Methods/>
+      <Methods>
+        <Method name="listarClientesQueRealizaronEstanciaAlgunaVez" returnType="void" visibility="public"/>
+      </Methods>
     </Class>
-    <Class name="Comentario" package="" visibility="public" xPosition="40.0" yPosition="585.0">
+    <Class name="Comentario" package="" visibility="public" xPosition="921.0" yPosition="969.0">
       <Fields>
         <Field name="idComentario" type="int" visibility="private"/>
         <Field name="idCasa" type="int" visibility="private"/>
@@ -43,7 +51,7 @@
       <Constructors/>
       <Methods/>
     </Class>
-    <Class name="Estancia" package="" visibility="public" xPosition="35.0" yPosition="351.0">
+    <Class name="Estancia" package="" visibility="public" xPosition="1214.0" yPosition="884.0">
       <Fields>
         <Field name="idEstancia" type="int" visibility="private"/>
         <Field name="idCliente" type="int" visibility="private"/>
@@ -53,9 +61,13 @@
         <Field name="fechaHasta" type="Date" visibility="private"/>
       </Fields>
       <Constructors/>
-      <Methods/>
+      <Methods>
+        <Method name="crearEstancia" returnType="Estancia" visibility="public"/>
+        <Method name="listarEstanciasReservadasSegunClienteAdemasDeCasa" returnType="void" visibility="public"/>
+        <Method name="ingresarEstancia" returnType="void" visibility="public"/>
+      </Methods>
     </Class>
-    <Class name="Familia" package="" visibility="public" xPosition="270.0" yPosition="288.0">
+    <Class name="Familia" package="" visibility="public" xPosition="569.0" yPosition="659.0">
       <Fields>
         <Field name="idFamilia" type="int" visibility="private"/>
         <Field name="nombre" type="String" visibility="private"/>
@@ -66,9 +78,12 @@
         <Field name="idCasaFamilia" type="int" visibility="private"/>
       </Fields>
       <Constructors/>
-      <Methods/>
+      <Methods>
+        <Method name="listarFamiliasConEdadMinima10AdemasDeTenerMinimo3NumeroDeHijos" returnType="void" visibility="public"/>
+        <Method name="listarFamiliasConHotmail" returnType="void" visibility="public"/>
+      </Methods>
     </Class>
-    <Class name="Menu" package="" visibility="public" xPosition="270.0" yPosition="548.0">
+    <Class name="Menu" package="" visibility="public" xPosition="257.0" yPosition="780.0">
       <Fields/>
       <Constructors/>
       <Methods>
@@ -85,52 +100,70 @@
         <Method name="ejecutarOpcion9" returnType="void" visibility="public"/>
         <Method name="ejecutarOpcion10" returnType="void" visibility="public"/>
         <Method name="ejecutarOpcion11" returnType="void" visibility="public"/>
+        <Method name="ejecutarOpcion" returnType="void" visibility="public"/>
+        <Method name="ejecutarOpcionDefault" returnType="void" visibility="public"/>
       </Methods>
     </Class>
-    <Class name="CasaDaoExt" package="" visibility="public" xPosition="1197.0" yPosition="67.0">
-      <Fields>
-        <Field name="sentenciaPreparada" type="PreparedStatement" visibility="private"/>
-      </Fields>
+    <Class name="CasaDaoExt" package="" visibility="public" xPosition="921.0" yPosition="14.0">
+      <Fields/>
+      <Constructors/>
+      <Methods>
+        <Method name="consultarCasasDeReinoUnidoAdemasDeSerEnAgosto" returnType="List&lt;Casa&gt;" visibility="public"/>
+        <Method name="consultarCasasPorFechaAdemasDeTiempoMinimoTiempoMaximo" returnType="List&lt;Casa&gt;" visibility="public">
+          <Argument type="String" name="anio"/>
+          <Argument type="String" name="mes"/>
+          <Argument type="String" name="dia"/>
+          <Argument type="int" name="tiempoMinimo"/>
+          <Argument type="int" name="tiempoMaximo"/>
+        </Method>
+        <Method name="incrementarPrecioDeLasCasas" returnType="void" visibility="public">
+          <Argument type="Double" name="numero"/>
+        </Method>
+        <Method name="consultarCasas" returnType="List&lt;Casa&gt;" visibility="public"/>
+        <Method name="consultarNumeroDeCasasPorPais" returnType="void" visibility="public"/>
+        <Method name="consultarCasasLimpiasDelReinoUnido" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="ComentarioDaoExt" package="" visibility="public" xPosition="1597.0" yPosition="288.0">
+      <Fields/>
       <Constructors/>
       <Methods/>
     </Class>
-    <Class name="ComentarioDaoExt" package="" visibility="public" xPosition="1088.0" yPosition="252.0">
-      <Fields>
-        <Field name="sentenciaPreparada" type="PreparedStatement" visibility="private"/>
-      </Fields>
+    <Class name="EstanciaDaoExt" package="" visibility="public" xPosition="1208.0" yPosition="659.0">
+      <Fields/>
       <Constructors/>
-      <Methods/>
+      <Methods>
+        <Method name="consultarEstanciasSegunCasaAdemasDeCliente" returnType="void" visibility="public"/>
+        <Method name="insertarEstancia" returnType="void" visibility="public">
+          <Argument type="Estancia" name="estancia"/>
+        </Method>
+      </Methods>
     </Class>
-    <Class name="EstanciaDaoExt" package="" visibility="public" xPosition="880.0" yPosition="398.0">
-      <Fields>
-        <Field name="sentenciaPreparada" type="PreparedStatement" visibility="private"/>
-      </Fields>
+    <Class name="FamiliaDaoExt" package="" visibility="public" xPosition="489.0" yPosition="355.0">
+      <Fields/>
       <Constructors/>
-      <Methods/>
+      <Methods>
+        <Method name="consultarFamiliasConEdadMaximaMenorQue10AdemasDeNumeroHijosMayorIgualQue3" returnType="List&lt;Familia&gt;" visibility="public"/>
+        <Method name="consultarFamiliasCuyoEmailSeaHotmail" returnType="List&lt;Familia&gt;" visibility="public"/>
+      </Methods>
     </Class>
-    <Class name="FamiliaDaoExt" package="" visibility="public" xPosition="477.0" yPosition="328.0">
-      <Fields>
-        <Field name="sentenciaPreparada" type="PreparedStatement" visibility="private"/>
-      </Fields>
+    <Class name="ClienteDaoExt" package="" visibility="public" xPosition="460.0" yPosition="25.0">
+      <Fields/>
       <Constructors/>
-      <Methods/>
+      <Methods>
+        <Method name="consultarClientesQueRealizaronEstanciaAlgunaVez" returnType="List&lt;Cliente&gt;" visibility="public"/>
+      </Methods>
     </Class>
-    <Class name="ClienteDaoExt" package="" visibility="public" xPosition="447.0" yPosition="29.0">
-      <Fields>
-        <Field name="sentenciaPreparada" type="PreparedStatement" visibility="private"/>
-      </Fields>
-      <Constructors/>
-      <Methods/>
-    </Class>
-    <Class name="Dao" package="" visibility="public" xPosition="733.0" yPosition="17.0">
+    <Class name="Dao" package="" visibility="public" xPosition="1250.0" yPosition="250.0">
       <Fields>
         <Field name="conexion" type="Connection" visibility="protected"/>
         <Field name="sentencia" type="Statement" visibility="protected"/>
         <Field name="resultado" type="ResultSet" visibility="protected"/>
-        <Field name="DRIVER" type="String" visibility="private" isFinal="true"/>
+        <Field name="sentenciaPreparada" type="PreparedStatement" visibility="protected" isFinal="true"/>
         <Field name="DATABASE" type="String" visibility="private" isFinal="true"/>
         <Field name="USERNAME" type="String" visibility="private" isFinal="true"/>
         <Field name="PASSWORD" type="String" visibility="private" isFinal="true"/>
+        <Field name="DRIVER" type="String" visibility="private" isFinal="true"/>
       </Fields>
       <Constructors/>
       <Methods>
@@ -138,16 +171,26 @@
         <Method name="insertarModificarEliminar" returnType="void" visibility="protected">
           <Argument type="String" name="sql"/>
         </Method>
-        <Method name="consultarBaseDeDatos" returnType="void" visibility="protected"/>
+        <Method name="consultarBaseDeDatos" returnType="ResultSet" visibility="protected"/>
         <Method name="desconectarBaseDeDatos" returnType="void" visibility="protected"/>
       </Methods>
     </Class>
   </ClassDiagramComponents>
   <ClassDiagramRelations>
+    <HasRelation name="Tiene" source="Menu" target="Cliente" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <HasRelation name="Tiene" source="Menu" target="Estancia" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <HasRelation name="Tiene" source="Menu" target="Familia" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <HasRelation name="Tiene" source="Menu" target="Comentario" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <HasRelation name="Tiene" source="ComentarioDaoExt" target="Comentario" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
     <IsRelation name="is" source="ComentarioDaoExt" target="Dao"/>
+    <HasRelation name="Tiene" source="ClienteDaoExt" target="Cliente" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
     <IsRelation name="is" source="ClienteDaoExt" target="Dao"/>
-    <IsRelation name="is" source="EstanciaDaoExt" target="Dao"/>
-    <IsRelation name="is" source="CasaDaoExt" target="Dao"/>
+    <HasRelation name="Tiene" source="EstanciaDaoExt" target="Estancia" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
     <IsRelation name="is" source="FamiliaDaoExt" target="Dao"/>
+    <IsRelation name="is" source="CasaDaoExt" target="Dao"/>
+    <HasRelation name="Tiene" source="CasaDaoExt" target="Casa" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="EstanciaDaoExt" target="Dao"/>
+    <HasRelation name="Tiene" source="Menu" target="Casa" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <HasRelation name="Tiene" source="FamiliaDaoExt" target="Familia" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
   </ClassDiagramRelations>
 </ClassDiagram>
