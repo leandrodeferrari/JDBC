@@ -6,11 +6,11 @@ import tienda.entidades.Fabricante;
 import tienda.persistencia.FabricanteDaoExt;
 import tienda.servicios.excepciones.FabricanteExcepcion;
 
-public class ServicioFabricante {
+public class FabricanteServicio {
 
     private final FabricanteDaoExt fabricanteDao;
 
-    public ServicioFabricante() {
+    public FabricanteServicio() {
         this.fabricanteDao = new FabricanteDaoExt();
     }
 

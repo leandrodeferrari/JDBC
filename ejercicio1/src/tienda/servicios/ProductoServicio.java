@@ -7,13 +7,13 @@ import tienda.entidades.Producto;
 import tienda.persistencia.ProductoDaoExt;
 import tienda.servicios.excepciones.ProductoExcepcion;
 
-public class ServicioProducto {
+public class ProductoServicio {
 
     Scanner leer = new Scanner(System.in).useDelimiter("\n");
 
     private final ProductoDaoExt productoDao;
 
-    public ServicioProducto() {
+    public ProductoServicio() {
         this.productoDao = new ProductoDaoExt();
     }
 

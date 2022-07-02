@@ -94,42 +94,42 @@ public class Menu {
 
     public void ejecutarOpcion1() throws ClassNotFoundException, SQLException {
 
-        ServicioProducto servicioProducto = new ServicioProducto();
+        ProductoServicio servicioProducto = new ProductoServicio();
         servicioProducto.listarNombresDeProductos();
 
     }
 
     public void ejecutarOpcion2() throws ClassNotFoundException, SQLException {
 
-        ServicioProducto servicioProducto = new ServicioProducto();
+        ProductoServicio servicioProducto = new ProductoServicio();
         servicioProducto.listarNombrePrecioDeProductos();
 
     }
 
     public void ejecutarOpcion3() throws ClassNotFoundException, SQLException {
 
-        ServicioProducto servicioProducto = new ServicioProducto();
+        ProductoServicio servicioProducto = new ProductoServicio();
         servicioProducto.listarProductosEntrePrecio120y202();
 
     }
 
     public void ejecutarOpcion4() throws ClassNotFoundException, SQLException {
 
-        ServicioProducto servicioProducto = new ServicioProducto();
+        ProductoServicio servicioProducto = new ProductoServicio();
         servicioProducto.listarProductosPortatiles();
 
     }
 
     public void ejecutarOpcion5() throws ClassNotFoundException, SQLException {
 
-        ServicioProducto servicioProducto = new ServicioProducto();
+        ProductoServicio servicioProducto = new ProductoServicio();
         servicioProducto.listarProductosMasBaratos();
 
     }
 
     public void ejecutarOpcion6() throws ClassNotFoundException, SQLException {
 
-        ServicioProducto servicioProducto = new ServicioProducto();
+        ProductoServicio servicioProducto = new ProductoServicio();
         Producto producto = servicioProducto.crearProducto();
 
         if (producto == null) {
@@ -142,14 +142,14 @@ public class Menu {
 
     public void ejecutarOpcion7() throws ClassNotFoundException, SQLException {
 
-        ServicioProducto servicioProducto = new ServicioProducto();
+        ProductoServicio servicioProducto = new ProductoServicio();
         servicioProducto.modificarTodosLosDatosDeUnProducto();
 
     }
 
     public void ejecutarOpcion8() throws ClassNotFoundException, SQLException {
 
-        ServicioFabricante servicioFabricante = new ServicioFabricante();
+        FabricanteServicio servicioFabricante = new FabricanteServicio();
         Fabricante fabricante = servicioFabricante.crearFabricante();
 
         if (fabricante == null) {
