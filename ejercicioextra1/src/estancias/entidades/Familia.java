@@ -90,7 +90,7 @@ public class Familia {
 
     @Override
     public String toString() {
-        return "Familia{" + "idFamilia=" + idFamilia + ", nombre=" + nombre + ", edadMinima=" + edadMinima + ", edadMaxima=" + edadMaxima + ", cantidadDeHijos=" + cantidadDeHijos + ", email=" + email + ", idCasaFamilia=" + idCasaFamilia + '}';
+        return "Familia{" + "idFamilia = " + idFamilia + ", nombre = " + nombre + ", edadMinima = " + edadMinima + ", edadMaxima = " + edadMaxima + ", cantidadDeHijos = " + cantidadDeHijos + ", email = " + email + ", idCasaFamilia = " + idCasaFamilia + '}';
     }
     
 }

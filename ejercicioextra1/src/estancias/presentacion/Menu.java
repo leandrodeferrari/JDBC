@@ -1,12 +1,18 @@
 package estancias.presentacion;
 
+import estancias.presentacion.excepciones.MenuExcepcion;
 import estancias.servicios.*;
 import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Menu {
 
-    Scanner leer = new Scanner(System.in).useDelimiter("\n");
+    private final Scanner leer = new Scanner(System.in).useDelimiter("\n");
+    private Integer opcion;
+
+    public Menu() {
+        this.opcion = 0;
+    }
 
     public void vistaMenu() {
 
@@ -28,126 +34,133 @@ public class Menu {
 
     public void ejecutarMenu() throws ClassNotFoundException, SQLException {
 
-        int opcion = 0;
-
         while (opcion != 11) {
 
             vistaMenu();
 
             System.out.println("Ingrese su opción:");
-            opcion = leer.nextInt();
 
-            switch (opcion) {
-
-                case 1:
-                    ejecutarOpcion1();
-                    break;
-
-                case 2:
-                    ejecutarOpcion2();
-                    break;
-
-                case 3:
-                    ejecutarOpcion3();
-                    break;
-
-                case 4:
-                    ejecutarOpcion4();
-                    break;
-
-                case 5:
-                    ejecutarOpcion5();
-                    break;
-
-                case 6:
-                    ejecutarOpcion6();
-                    break;
-
-                case 7:
-                    ejecutarOpcion7();
-                    break;
-
-                case 8:
-                    ejecutarOpcion8();
-                    break;
-
-                case 9:
-                    ejecutarOpcion9();
-                    break;
-
-                case 10:
-                    ejecutarOpcion10();
-                    break;
-
-                case 11:
-                    ejecutarOpcion11();
-                    break;
-
-                default:
-                    System.out.println("Error al ingresar la opción");
-                    opcion = 11;
-                    ejecutarOpcion11();
-
+            try {
+                this.opcion = leer.nextInt();
+            } catch (MenuExcepcion ex) {
+                throw new MenuExcepcion("Ha ocurrido un error al escribir la opción");
             }
 
-            System.out.println("");
-
+            ejecutarOpcion(opcion);
+            
         }
 
     }
 
+    public void ejecutarOpcion(int opcion) throws ClassNotFoundException, SQLException {
+        switch (opcion) {
+
+            case 1:
+                ejecutarOpcion1();
+                break;
+
+            case 2:
+                ejecutarOpcion2();
+                break;
+
+            case 3:
+                ejecutarOpcion3();
+                break;
+
+            case 4:
+                ejecutarOpcion4();
+                break;
+
+            case 5:
+                ejecutarOpcion5();
+                break;
+
+            case 6:
+                ejecutarOpcion6();
+                break;
+
+            case 7:
+                ejecutarOpcion7();
+                break;
+
+            case 8:
+                ejecutarOpcion8();
+                break;
+
+            case 9:
+                ejecutarOpcion9();
+                break;
+
+            case 10:
+                ejecutarOpcion10();
+                break;
+
+            case 11:
+                ejecutarOpcion11();
+                break;
+
+            default:
+                ejecutarOpcionDefault();
+        }
+    }
+
     public void ejecutarOpcion1() throws ClassNotFoundException, SQLException {
-        ServicioFamilia servicioFamilia = new ServicioFamilia();
+        FamiliaServicio servicioFamilia = new FamiliaServicio();
         servicioFamilia.listarFamiliasConEdadMinima10AdemasDeTenerMinimo3NumeroDeHijos();
     }
 
     public void ejecutarOpcion2() throws ClassNotFoundException, SQLException {
-        ServicioCasa servicioCasa = new ServicioCasa();
+        CasaServicio servicioCasa = new CasaServicio();
         servicioCasa.listarCasasDeReinoUnidoDeAgosto();
     }
 
     public void ejecutarOpcion3() throws ClassNotFoundException, SQLException {
-        ServicioFamilia servicioFamilia = new ServicioFamilia();
+        FamiliaServicio servicioFamilia = new FamiliaServicio();
         servicioFamilia.listarFamiliasConHotmail();
     }
 
     public void ejecutarOpcion4() throws ClassNotFoundException, SQLException {
-        ServicioCasa servicioCasa = new ServicioCasa();
+        CasaServicio servicioCasa = new CasaServicio();
         servicioCasa.listarCasasPorFechaTiempo();
     }
 
     public void ejecutarOpcion5() throws SQLException, ClassNotFoundException {
-        ServicioCliente servicioCliente = new ServicioCliente();
+        ClienteServicio servicioCliente = new ClienteServicio();
         servicioCliente.listarClientesQueRealizaronEstanciaAlgunaVez();
     }
 
     public void ejecutarOpcion6() throws SQLException, ClassNotFoundException {
-        ServicioEstancia servicioEstancia = new ServicioEstancia();
+        EstanciaServicio servicioEstancia = new EstanciaServicio();
         servicioEstancia.listarEstanciasReservadasSegunClienteAdemasDeCasa();
     }
 
     public void ejecutarOpcion7() throws ClassNotFoundException, SQLException {
-        ServicioCasa servicioCasa = new ServicioCasa();
-        servicioCasa.incrementarPrecioHabitacionUn5PorcientoAdemasDeMostrarlo();
+        CasaServicio servicioCasa = new CasaServicio();
+        servicioCasa.incrementarPrecioHabitacionUn5PorCientoAdemasDeMostrarlo();
     }
 
     public void ejecutarOpcion8() throws ClassNotFoundException, SQLException {
-        ServicioCasa servicioCasa = new ServicioCasa();
+        CasaServicio servicioCasa = new CasaServicio();
         servicioCasa.obtenerNumeroDeCasasPorPais();
     }
 
     public void ejecutarOpcion9() throws ClassNotFoundException, SQLException {
-        ServicioCasa servicioCasa = new ServicioCasa();
+        CasaServicio servicioCasa = new CasaServicio();
         servicioCasa.listarCasasLimpiasDelReinoUnido();
     }
 
     public void ejecutarOpcion10() throws SQLException, ClassNotFoundException {
-        ServicioEstancia servicioEstancia = new ServicioEstancia();
+        EstanciaServicio servicioEstancia = new EstanciaServicio();
         servicioEstancia.ingresarEstancia();
     }
 
     public void ejecutarOpcion11() {
         System.out.println("¡Hasta la próxima!");
+    }
+
+    public void ejecutarOpcionDefault() {
+        System.out.println("Ha ingresado una opción inválida");
+        this.opcion = 0;
     }
 
 }

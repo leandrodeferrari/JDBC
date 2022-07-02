@@ -46,7 +46,7 @@ public class Comentario {
 
     @Override
     public String toString() {
-        return "Comentario{" + "idComentario=" + idComentario + ", idCasa=" + idCasa + ", comentario=" + comentario + '}';
+        return "Comentario{" + "idComentario = " + idComentario + ", idCasa = " + idCasa + ", comentario = " + comentario + '}';
     }
     
 }

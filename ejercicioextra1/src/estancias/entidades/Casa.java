@@ -147,7 +147,7 @@ public class Casa {
 
     @Override
     public String toString() {
-        return "Casa{" + "idCasa=" + idCasa + ", calle=" + calle + ", numero=" + numero + ", codigoPostal=" + codigoPostal + ", ciudad=" + ciudad + ", pais=" + pais + ", fechaDesde=" + fechaDesde + ", fechaHasta=" + fechaHasta + ", tiempoMinimo=" + tiempoMinimo + ", tiempoMaximo=" + tiempoMaximo + ", precioHabitacion=" + precioHabitacion + ", tipoVivienda=" + tipoVivienda + '}';
+        return "Casa{" + "idCasa = " + idCasa + ", calle = " + calle + ", numero = " + numero + ", codigoPostal = " + codigoPostal + ", ciudad = " + ciudad + ", pais = " + pais + ", fechaDesde = " + fechaDesde + ", fechaHasta = " + fechaHasta + ", tiempoMinimo = " + tiempoMinimo + ", tiempoMaximo = " + tiempoMaximo + ", precioHabitacion = " + precioHabitacion + ", tipoVivienda = " + tipoVivienda + '}';
     }  
     
 }

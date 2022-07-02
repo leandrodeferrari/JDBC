@@ -81,7 +81,7 @@ public class Estancia {
 
     @Override
     public String toString() {
-        return "Estancia{" + "idEstancia=" + idEstancia + ", idCliente=" + idCliente + ", idCasa=" + idCasa + ", nombreHuesped=" + nombreHuesped + ", fechaDesde=" + fechaDesde + ", fechaHasta=" + fechaHasta + '}';
+        return "Estancia{" + "idEstancia = " + idEstancia + ", idCliente = " + idCliente + ", idCasa = " + idCasa + ", nombreHuesped = " + nombreHuesped + ", fechaDesde = " + fechaDesde + ", fechaHasta = " + fechaHasta + '}';
     }
     
 }

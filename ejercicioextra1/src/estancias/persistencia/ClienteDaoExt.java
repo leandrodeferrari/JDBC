@@ -1,46 +1,39 @@
 package estancias.persistencia;
 
+import estancias.entidades.Cliente;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClienteDaoExt extends Dao {
 
-    private PreparedStatement sentenciaPreparada;
+    public List<Cliente> consultarClientesQueRealizaronEstanciaAlgunaVez() throws ClassNotFoundException, SQLException {
 
-    // Listar los clientes que en algún momento realizaron una estancia 
-    // (y la descripción de la casa donde la realizaron).
-    
-    private final String SQL_SELECT_CLIENTES_CONESTANCIA = "SELECT clientes.*, estancias.id_casa FROM estancias_exterior.clientes INNER JOIN estancias_exterior.estancias ON clientes.id_cliente = estancias.id_cliente";
-    
-    @Override
-    public void desconectarBaseDeDatos() throws SQLException {
+        List<Cliente> clientes = new ArrayList<>();
+        String sql = "SELECT clientes.*, estancias.id_casa FROM estancias_exterior.clientes "
+                + "INNER JOIN estancias_exterior.estancias ON clientes.id_cliente = estancias.id_cliente";
 
-        super.desconectarBaseDeDatos();
-        try {
-            if (sentenciaPreparada != null) {
-                sentenciaPreparada.close();
+        this.resultado = consultarBaseDeDatos(sql);
+
+        if (resultado != null) {
+            while (resultado.next()) {
+                Cliente cliente = new Cliente();
+                cliente.setIdCliente(resultado.getInt("id_cliente"));
+                cliente.setNombre(resultado.getString("nombre"));
+                cliente.setCalle(resultado.getString("calle"));
+                cliente.setNumero(resultado.getInt("numero"));
+                cliente.setCodigoPostal(resultado.getString("codigo_postal"));
+                cliente.setCiudad(resultado.getString("ciudad"));
+                cliente.setPais(resultado.getString("pais"));
+                cliente.setEmail(resultado.getString("email"));
+                clientes.add(cliente);
             }
-        } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
         }
+
+        desconectarBaseDeDatos();
+
+        return clientes;
 
     }
 
-    public void consultarClientesQueRealizaronEstanciaAlgunaVez() throws SQLException, ClassNotFoundException{
-        
-        try {
-            consultarBaseDeDatos(SQL_SELECT_CLIENTES_CONESTANCIA);
-            while(resultado.next()){
-                System.out.println(resultado.getInt("id_cliente") + " " + resultado.getString("nombre") 
-                        + " " + resultado.getString("calle") + " " + resultado.getInt("numero") 
-                        + " " + resultado.getString("codigo_postal") + " " + resultado.getString("ciudad") 
-                        + " " + resultado.getString("pais") + " " + resultado.getString("email"));
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
-        } finally {
-            desconectarBaseDeDatos();
-        }
-        
-    }
-    
 }

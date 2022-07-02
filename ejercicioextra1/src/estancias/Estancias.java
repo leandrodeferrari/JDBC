@@ -119,7 +119,7 @@ public class Estancias {
     
     Menu servicioMenu = new Menu();
     servicioMenu.ejecutarMenu();
-    
+            
     }
     
 }

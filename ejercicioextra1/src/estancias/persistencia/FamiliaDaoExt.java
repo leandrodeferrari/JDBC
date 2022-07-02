@@ -1,66 +1,73 @@
 package estancias.persistencia;
 
+import estancias.entidades.Familia;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FamiliaDaoExt extends Dao {
 
-    private PreparedStatement sentenciaPreparada;
+    private final String SQL_SELECT_CON_HIJOS_Y_EDAD_MAXIMA = "SELECT * FROM estancias_exterior.familias "
+            + "WHERE num_hijos >= ? AND edad_maxima < ?";
 
-    private final String SQL_SELECT_CON_HIJOS_Y_EDAD_MAXIMA = "SELECT * FROM estancias_exterior.familias WHERE num_hijos >= ? AND edad_maxima < ?";
-    private final String SQL_SELECT_CON_HOTMAIL = "SELECT * FROM estancias_exterior.familias WHERE email LIKE '%hotmail%'";
+    public List<Familia> consultarFamiliasConEdadMaximaMenorQue10AdemasDeNumeroHijosMayorIgualQue3() throws ClassNotFoundException, SQLException {
 
-    @Override
-    public void desconectarBaseDeDatos() throws SQLException {
-
-        super.desconectarBaseDeDatos();
-        try {
-            if (sentenciaPreparada != null) {
-                sentenciaPreparada.close();
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
-        }
-
-    }
-
-    public void consultarFamiliasConEdadMaximaMenorQue10AdemasDeNumeroHijosMayorIgualQue3() throws ClassNotFoundException, SQLException {
+        List<Familia> familias = new ArrayList<>();
 
         try {
             conectarBaseDeDatos();
-            sentenciaPreparada = conexion.prepareStatement(SQL_SELECT_CON_HIJOS_Y_EDAD_MAXIMA);
+
+            this.sentenciaPreparada = conexion.prepareStatement(SQL_SELECT_CON_HIJOS_Y_EDAD_MAXIMA);
             sentenciaPreparada.setInt(1, 3);
             sentenciaPreparada.setInt(2, 10);
-            resultado = sentenciaPreparada.executeQuery();
+
+            this.resultado = sentenciaPreparada.executeQuery();
+
             while (resultado.next()) {
-                System.out.println(resultado.getInt("id_familia") + " " + resultado.getString("nombre") + " "
-                        + resultado.getInt("edad_minima") + " " + resultado.getInt("edad_maxima") + " "
-                        + resultado.getInt("num_hijos") + " " + resultado.getString("email") + " "
-                        + resultado.getInt("id_casa_familia"));
+                Familia familia = new Familia();
+                familia.setIdFamilia(resultado.getInt("id_familia"));
+                familia.setNombre(resultado.getString("nombre"));
+                familia.setEdadMinima(resultado.getInt("edad_minima"));
+                familia.setEdadMaxima(resultado.getInt("edad_maxima"));
+                familia.setCantidadDeHijos(resultado.getInt("num_hijos"));
+                familia.setEmail(resultado.getString("email"));
+                familia.setIdFamilia(resultado.getInt("id_casa_familia"));
+                familias.add(familia);
             }
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
         } finally {
             desconectarBaseDeDatos();
         }
+
+        return familias;
 
     }
 
-    public void consultarFamiliasCuyoEmailSeaHotmail() throws ClassNotFoundException, SQLException {
+    public List<Familia> consultarFamiliasCuyoEmailSeaHotmail() throws ClassNotFoundException, SQLException {
 
-        try {
-            conectarBaseDeDatos();
-            consultarBaseDeDatos(SQL_SELECT_CON_HOTMAIL);
+        List<Familia> familias = new ArrayList<>();
+        String sql = "SELECT * FROM estancias_exterior.familias WHERE email LIKE '%hotmail%'";
+
+        this.resultado = consultarBaseDeDatos(sql);
+
+        if (resultado != null) {
             while (resultado.next()) {
-                System.out.println(resultado.getInt("id_familia") + " " + resultado.getString("nombre") + " "
-                        + resultado.getInt("edad_minima") + " " + resultado.getInt("edad_maxima") + " "
-                        + resultado.getInt("num_hijos") + " " + resultado.getString("email") + " "
-                        + resultado.getInt("id_casa_familia"));
+                Familia familia = new Familia();
+                familia.setIdFamilia(resultado.getInt("id_familia"));
+                familia.setNombre(resultado.getString("nombre"));
+                familia.setEdadMinima(resultado.getInt("edad_minima"));
+                familia.setEdadMaxima(resultado.getInt("edad_maxima"));
+                familia.setCantidadDeHijos(resultado.getInt("num_hijos"));
+                familia.setEmail(resultado.getString("email"));
+                familia.setIdFamilia(resultado.getInt("id_casa_familia"));
+                familias.add(familia);
             }
-        } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
-        } finally {
-            desconectarBaseDeDatos();
         }
+
+        desconectarBaseDeDatos();
+
+        return familias;
 
     }
 

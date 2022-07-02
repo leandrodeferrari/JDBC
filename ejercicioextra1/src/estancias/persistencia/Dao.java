@@ -7,6 +7,7 @@ public class Dao {
     protected Connection conexion;
     protected Statement sentencia;
     protected ResultSet resultado;
+    protected PreparedStatement sentenciaPreparada;
 
     private final String DRIVER = "com.mysql.jdbc.Driver";
     private final String DATABASE = "estancias_exterior";
@@ -32,6 +33,10 @@ public class Dao {
                 resultado.close();
             }
 
+            if(sentenciaPreparada != null){
+                sentenciaPreparada.close();
+            }
+            
             if (sentencia != null) {
                 sentencia.close();
             }
@@ -52,9 +57,6 @@ public class Dao {
             sentencia = conexion.createStatement();
             sentencia.executeUpdate(sql);
         } catch (ClassNotFoundException | SQLException ex) {
-            // conexion.rollback(); AVERIGUAR COMO USAR ESTO
-            // SET autocommit = 1;
-            // COMMIT;
             ex.printStackTrace(System.out);
         } finally {
             desconectarBaseDeDatos();
@@ -62,7 +64,7 @@ public class Dao {
 
     }
 
-    protected void consultarBaseDeDatos(String sql) throws ClassNotFoundException, SQLException {
+    protected ResultSet consultarBaseDeDatos(String sql) throws ClassNotFoundException, SQLException {
 
         try {
             conectarBaseDeDatos();
@@ -72,6 +74,8 @@ public class Dao {
             ex.printStackTrace(System.out);
         }
 
+        return resultado;
+        
     }
 
 }
